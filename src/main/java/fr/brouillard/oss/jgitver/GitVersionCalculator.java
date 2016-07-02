@@ -282,7 +282,7 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
     }
 
     /**
-     * Defines a comma separated list of branches for which no branch name qualifier will be used. default "master".
+     * Defines list of branches for which no branch name qualifier will be used. default "master".
      * Example: "master, integration"
      *
      * @param nonQualifierBranches a list of branch name for which no branch name qualifier should be
@@ -294,7 +294,7 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
     }
 
     /**
-     * Defines a comma separated list of branches for which no branch name qualifier will be used. default "master".
+     * Defines list of branches for which no branch name qualifier will be used. default "master".
      * Example: "master, integration"
      *
      * @param nonQualifierBranches a list of branch name for which no branch name qualifier should be
