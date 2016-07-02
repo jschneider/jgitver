@@ -276,6 +276,19 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
      *        used
      * @return itself to chain settings
      */
+    @Deprecated
+    public GitVersionCalculator setNonQualifierBranches(String nonQualifierBranches) {
+        return setNonQualifierBranches(Arrays.asList(nonQualifierBranches.split("\\s*,\\s*")));
+    }
+
+    /**
+     * Defines a comma separated list of branches for which no branch name qualifier will be used. default "master".
+     * Example: "master, integration"
+     *
+     * @param nonQualifierBranches a list of branch name for which no branch name qualifier should be
+     *        used
+     * @return itself to chain settings
+     */
     public GitVersionCalculator setNonQualifierBranches(String... nonQualifierBranches) {
         return setNonQualifierBranches(Arrays.asList(nonQualifierBranches));
     }
