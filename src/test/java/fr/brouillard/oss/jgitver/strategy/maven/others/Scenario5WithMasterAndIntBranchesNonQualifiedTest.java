@@ -77,7 +77,7 @@ public class Scenario5WithMasterAndIntBranchesNonQualifiedTest {
         repository = new FileRepositoryBuilder().setGitDir(scenario.getRepositoryLocation()).build();
         git = new Git(repository);
         versionCalculator = GitVersionCalculator.location(scenario.getRepositoryLocation())
-                .setMavenLike(true).setNonQualifierBranches("master,int");
+                .setMavenLike(true).setNonQualifierBranches("master", "int");
 
         // reset the head to master
         unchecked(() -> git.checkout().setName("master").call());

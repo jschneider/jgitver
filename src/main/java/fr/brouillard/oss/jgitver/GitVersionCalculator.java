@@ -58,7 +58,7 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
     private boolean useGitCommitId = false;
     private boolean useDirty = false;
     private int gitCommitIdLength = 8;
-    private String nonQualifierBranches = "master";
+    private List<String> nonQualifierBranches;
 
     private String findTagVersionPattern = "v?([0-9]+(?:\\.[0-9]+){0,2}(?:-[a-zA-Z0-9\\-_]+)?)";
     private String extractTagVersionPattern = "$1";
@@ -70,6 +70,9 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
         this.gitRepositoryLocation = gitRepositoryLocation;
 
         dtfmt = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy Z", Locale.US);
+
+        nonQualifierBranches = new ArrayList<>();
+        nonQualifierBranches.add("master");
     }
 
     /**
@@ -110,7 +113,7 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
             VersionStrategy strategy;
 
             VersionNamingConfiguration vnc = new VersionNamingConfiguration(findTagVersionPattern,
-                    extractTagVersionPattern, Arrays.asList(nonQualifierBranches.split("\\s*,\\s*")));
+                    extractTagVersionPattern, nonQualifierBranches);
 
             if (mavenLike) {
                 strategy = new MavenVersionStrategy(vnc, repository, git, metadatas);
@@ -269,12 +272,29 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
      * Defines a comma separated list of branches for which no branch name qualifier will be used. default "master".
      * Example: "master, integration"
      * 
-     * @param nonQualifierBranches a comma separated list of branch name for which no branch name qualifier should be
+     * @param nonQualifierBranches a list of branch name for which no branch name qualifier should be
+     *        used
+     * @return itself to chain settings
+     */
+    public GitVersionCalculator setNonQualifierBranches(String... nonQualifierBranches) {
+        return setNonQualifierBranches(Arrays.asList(nonQualifierBranches));
+    }
+
+    /**
+     * Defines a comma separated list of branches for which no branch name qualifier will be used. default "master".
+     * Example: "master, integration"
+     *
+     * @param nonQualifierBranches a list of branch name for which no branch name qualifier should be
      *        used, can be null and/or empty
      * @return itself to chain settings
      */
-    public GitVersionCalculator setNonQualifierBranches(String nonQualifierBranches) {
-        this.nonQualifierBranches = Optional.ofNullable(nonQualifierBranches).orElse("");
+    public GitVersionCalculator setNonQualifierBranches(List<String> nonQualifierBranches) {
+        if (nonQualifierBranches == null) {
+            this.nonQualifierBranches = new ArrayList<>();
+        }
+        else {
+            this.nonQualifierBranches = new ArrayList<>(nonQualifierBranches);
+        }
         return this;
     }
 
