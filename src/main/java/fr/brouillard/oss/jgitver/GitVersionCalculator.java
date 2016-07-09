@@ -60,8 +60,8 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
     private int gitCommitIdLength = 8;
     private String nonQualifierBranches = "master";
 
-    private String findTagVersionPattern = "v?([0-9]+(?:\\.[0-9]+){0,2}(?:-[a-zA-Z0-9\\-_]+)?)";
-    private String extractTagVersionPattern = "$1";
+    public static final String FIND_TAG_VERSION_PATTERN = "v?([0-9]+(?:\\.[0-9]+){0,2}(?:-[a-zA-Z0-9\\-_]+)?)";
+    public static final String EXTRACT_TAG_VERSION_PATTERN = "$1";
     private File gitRepositoryLocation;
 
     private final SimpleDateFormat dtfmt;
@@ -109,8 +109,8 @@ public class GitVersionCalculator implements AutoCloseable, MetadataProvider {
         try (Git git = new Git(repository)) {
             VersionStrategy strategy;
 
-            VersionNamingConfiguration vnc = new VersionNamingConfiguration(findTagVersionPattern,
-                    extractTagVersionPattern, Arrays.asList(nonQualifierBranches.split("\\s*,\\s*")));
+            VersionNamingConfiguration vnc = new VersionNamingConfiguration(FIND_TAG_VERSION_PATTERN,
+                                                                            EXTRACT_TAG_VERSION_PATTERN, Arrays.asList(nonQualifierBranches.split("\\s*,\\s*")));
 
             if (mavenLike) {
                 strategy = new MavenVersionStrategy(vnc, repository, git, metadatas);
