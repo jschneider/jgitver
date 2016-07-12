@@ -18,7 +18,6 @@ package fr.brouillard.oss.jgitver.impl;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -92,7 +91,8 @@ public abstract class VersionStrategy {
         return StrategySearchMode.STOP_AT_FIRST;
     }
 
-    private String tagNameFromRef(Ref tag) {
+    @Nonnull
+    private static String tagNameFromRef(@Nonnull Ref tag) {
         return tag.getName().replace("refs/tags/", "");
     }
     
