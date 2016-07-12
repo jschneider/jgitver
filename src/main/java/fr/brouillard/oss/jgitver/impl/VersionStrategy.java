@@ -26,11 +26,14 @@ import fr.brouillard.oss.jgitver.Version;
 import fr.brouillard.oss.jgitver.VersionCalculationException;
 import fr.brouillard.oss.jgitver.metadata.MetadataRegistrar;
 
+import javax.annotation.concurrent.Immutable;
+
+@Immutable
 public abstract class VersionStrategy {
-    private VersionNamingConfiguration vnc;
-    private Repository repository;
-    private Git git;
-    private MetadataRegistrar registrar;
+    private final VersionNamingConfiguration vnc;
+    private final Repository repository;
+    private final Git git;
+    private final MetadataRegistrar registrar;
 
     protected MetadataRegistrar getRegistrar() {
         return registrar;
