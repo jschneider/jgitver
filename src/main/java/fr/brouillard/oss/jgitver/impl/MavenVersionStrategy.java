@@ -27,8 +27,10 @@ import fr.brouillard.oss.jgitver.VersionCalculationException;
 import fr.brouillard.oss.jgitver.metadata.MetadataRegistrar;
 import fr.brouillard.oss.jgitver.metadata.Metadatas;
 
+import javax.annotation.Nonnull;
+
 public class MavenVersionStrategy extends VersionStrategy {
-    public MavenVersionStrategy(VersionNamingConfiguration vnc, Repository repository, Git git, MetadataRegistrar metadatas) {
+    public MavenVersionStrategy(@Nonnull VersionNamingConfiguration vnc, @Nonnull Repository repository, @Nonnull Git git, @Nonnull MetadataRegistrar metadatas) {
         super(vnc, repository, git, metadatas);
     }
 
