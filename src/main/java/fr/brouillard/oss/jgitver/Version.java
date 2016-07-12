@@ -15,6 +15,10 @@
  */
 package fr.brouillard.oss.jgitver;
 
+import com.google.common.collect.ImmutableList;
+
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,6 +27,7 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Immutable
 public class Version {
     public static final Version DEFAULT_VERSION = new Version(0, 0, 0);
     public static final Version EMPTY_REPOSITORY_VERSION = DEFAULT_VERSION.addQualifier("EMPTY_GIT_REPOSITORY");
@@ -31,18 +36,18 @@ public class Version {
     private final int major;
     private final int minor;
     private final int patch;
-    private String stringRepresentation;
-    private List<String> qualifiers;
+    private final String stringRepresentation;
+    private final List<String> qualifiers;
     
-    public Version(int major, int minor, int patch, String...qualifiers) {
-        this(major, minor, patch, Arrays.asList(qualifiers));
+    public Version(int major, int minor, int patch, @Nonnull String...qualifiers) {
+        this(major, minor, patch, ImmutableList.copyOf(qualifiers));
     }
     
-    private Version(int major, int minor, int patch, List<String> qualifiers) {
+    private Version(int major, int minor, int patch, @Nonnull List<String> qualifiers) {
         this.major = major;
         this.minor = minor;
         this.patch = patch;
-        this.qualifiers = qualifiers;
+        this.qualifiers = ImmutableList.copyOf(qualifiers);
         
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%d.%d.%d", major, minor, patch));
@@ -62,7 +67,8 @@ public class Version {
      * @param qualifier the qualifier to be added
      * @return a new Version object with exact same major/minor/patch numbers, previous qualifiers and the new added one
      */
-    public Version addQualifier(String qualifier) {
+    @Nonnull
+    public Version addQualifier(@Nonnull String qualifier) {
         List<String> newQualifiers = new ArrayList<>(this.qualifiers);
         newQualifiers.add(qualifier);
         return new Version(major, minor, patch, newQualifiers.toArray(new String[newQualifiers.size()]));
@@ -73,7 +79,8 @@ public class Version {
      * @param qualifier the qualifier to be removed
      * @return a new Version object with exact same major/minor/patch numbers, previous qualifiers without the given one
      */
-    public Version removeQualifier(String qualifier) {
+    @Nonnull
+    public Version removeQualifier(@Nonnull String qualifier) {
         List<String> newQualifiers = new ArrayList<>(this.qualifiers);
         newQualifiers.remove(qualifier);
         return new Version(major, minor, patch, newQualifiers.toArray(new String[newQualifiers.size()]));
@@ -83,10 +90,12 @@ public class Version {
      * Creates a new Version object from the current one, but removes all qualifiers from it.
      * @return a new Version object with exact same major/minor/patch numbers, but without any qualifier
      */
+    @Nonnull
     public Version noQualifier() {
         return new Version(major, minor, patch, Collections.emptyList());
     }
-    
+
+    @Nonnull
     private static final Pattern globalVersionPattern = Pattern.compile("^([0-9]+)(?:\\.([0-9]+))?(?:\\.([0-9]+))?(\\-[a-zA-Z0-9][a-zA-Z0-9\\-_]*)?$");
     
     /**
@@ -95,7 +104,8 @@ public class Version {
      * @return a Version object built from the information of the given representation
      * @throws IllegalStateException if the given string doesn't match the version
      */
-    public static Version parse(String versionAsString) {
+    @Nonnull
+    public static Version parse(@Nonnull String versionAsString) {
         Matcher globalVersionMatcher = globalVersionPattern.matcher(versionAsString);
         
         if (globalVersionMatcher.matches()) {
@@ -116,6 +126,7 @@ public class Version {
         throw new IllegalStateException("cannot parse " + versionAsString + " as a semver compatible version");
     }
 
+    @Nonnull
     public Version increasePatch() {
         return new Version(major, minor, patch + 1, qualifiers);
     }
