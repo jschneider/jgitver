@@ -136,6 +136,6 @@ public class Version {
     }
     
     public boolean isQualified() {
-        return qualifiers.size() > 0;
+        return !qualifiers.isEmpty();
     }
 }
