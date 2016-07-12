@@ -26,15 +26,21 @@ import fr.brouillard.oss.jgitver.Version;
 import fr.brouillard.oss.jgitver.VersionCalculationException;
 import fr.brouillard.oss.jgitver.metadata.MetadataRegistrar;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
 @Immutable
 public abstract class VersionStrategy {
+    @Nonnull
     private final VersionNamingConfiguration vnc;
+    @Nonnull
     private final Repository repository;
+    @Nonnull
     private final Git git;
+    @Nonnull
     private final MetadataRegistrar registrar;
 
+    @Nonnull
     protected MetadataRegistrar getRegistrar() {
         return registrar;
     }
@@ -46,7 +52,7 @@ public abstract class VersionStrategy {
      * @param git a git helper object built from the repository
      * @param registrar a storage for found/calculated metadata
      */
-    public VersionStrategy(VersionNamingConfiguration vnc, Repository repository, Git git, MetadataRegistrar registrar) {
+    public VersionStrategy(@Nonnull VersionNamingConfiguration vnc, @Nonnull Repository repository, @Nonnull Git git, @Nonnull MetadataRegistrar registrar) {
         this.vnc = vnc;
         this.repository = repository;
         this.git = git;
