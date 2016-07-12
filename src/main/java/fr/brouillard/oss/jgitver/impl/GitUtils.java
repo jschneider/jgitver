@@ -24,12 +24,15 @@ import org.eclipse.jgit.errors.NoWorkTreeException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class GitUtils {
-    public static String tagNameFromRef(Ref tag) {
+    public static String tagNameFromRef(@Nonnull Ref tag) {
         return tag.getName().replace("refs/tags/", "");
     }
     
-    public static boolean isAnnotated(Ref ref) {
+    public static boolean isAnnotated(@Nullable Ref ref) {
         return ref != null && ref.getPeeledObjectId() != null;
     }
     

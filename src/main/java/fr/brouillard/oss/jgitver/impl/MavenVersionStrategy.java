@@ -51,8 +51,8 @@ public class MavenVersionStrategy extends VersionStrategy {
                         .orElseGet(() -> base.getAnnotatedTags().stream().findFirst().orElse(null));
             }
 
-            Version baseVersion = null;
-            boolean needSnapshot = false;
+            Version baseVersion;
+            boolean needSnapshot;
 
             if (tagToUse == null) {
                 // we have reached the first commit of the repository and this commit is still no annotated
