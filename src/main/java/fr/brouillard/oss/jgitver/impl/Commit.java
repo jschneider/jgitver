@@ -21,10 +21,13 @@ import com.google.common.collect.ImmutableList;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
+import javax.annotation.concurrent.Immutable;
+
 /**
  * Container object for a git node involved in version calculation.
  * @author Matthieu Brouillard
  */
+@Immutable
 public class Commit {
     private final ObjectId gitObject;
     private final List<Ref> annotatedTags;
