@@ -35,7 +35,8 @@ public class MavenVersionStrategy extends VersionStrategy {
     }
 
     @Override
-    public Version build(Commit head, List<Commit> parents) throws VersionCalculationException {
+    @Nonnull
+    public Version build(@Nonnull Commit head, @Nonnull List<Commit> parents) throws VersionCalculationException {
         try {
             Commit base = parents.get(0);
 

@@ -27,6 +27,8 @@ import fr.brouillard.oss.jgitver.VersionCalculationException;
 import fr.brouillard.oss.jgitver.metadata.MetadataRegistrar;
 import fr.brouillard.oss.jgitver.metadata.Metadatas;
 
+import javax.annotation.Nonnull;
+
 public class ConfigurableVersionStrategy extends VersionStrategy {
     private boolean autoIncrementPatch = false;
     private boolean useDistance = true;
@@ -63,8 +65,9 @@ public class ConfigurableVersionStrategy extends VersionStrategy {
         return this;
     }
 
+    @Nonnull
     @Override
-    public Version build(Commit head, List<Commit> parents) throws VersionCalculationException {
+    public Version build(@Nonnull Commit head, @Nonnull List<Commit> parents) throws VersionCalculationException {
         try {
             Commit base = parents.get(0);
             Ref tagToUse;

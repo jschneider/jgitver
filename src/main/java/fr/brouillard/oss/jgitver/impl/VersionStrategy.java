@@ -67,7 +67,8 @@ public abstract class VersionStrategy {
      * @return a non null Version object
      * @throws VersionCalculationException in case an error occurred while computing the version 
      */
-    public abstract Version build(Commit head, List<Commit> parents) throws VersionCalculationException;
+    @Nonnull
+    public abstract Version build(@Nonnull Commit head, @Nonnull List<Commit> parents) throws VersionCalculationException;
 
     /**
      * Defines the history commit depth, starting from HEAD, until which parent commits will be parsed to find tags
