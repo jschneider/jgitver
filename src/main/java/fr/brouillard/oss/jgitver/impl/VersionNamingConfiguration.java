@@ -15,14 +15,22 @@
  */
 package fr.brouillard.oss.jgitver.impl;
 
+import com.google.common.collect.ImmutableList;
+
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+@Immutable
 public class VersionNamingConfiguration {
-    private Pattern searchPattern;
-    private String replaceVersionRegex;
-    private List<String> noQualifierForBranches;
+    @Nonnull
+    private final Pattern searchPattern;
+    @Nonnull
+    private final String replaceVersionRegex;
+    @Nonnull
+    private final List<String> noQualifierForBranches;
 
     /**
      * Builds a Configuration object holding information to use while building version.
@@ -31,21 +39,24 @@ public class VersionNamingConfiguration {
      * @param replaceVersionRegex a replacement regex string that will be applied on searchVersionRegex to extract the tag string to use
      * @param noQualifierForBranches comma separated string of branches name for which no qualifier will be built
      */
-    public VersionNamingConfiguration(String searchVersionRegex, String replaceVersionRegex, List<String> noQualifierForBranches) {
-        this.noQualifierForBranches = noQualifierForBranches;
+    public VersionNamingConfiguration(@Nonnull String searchVersionRegex, @Nonnull String replaceVersionRegex, @Nonnull List<String> noQualifierForBranches) {
+        this.noQualifierForBranches = ImmutableList.copyOf(noQualifierForBranches);
         this.searchPattern = Pattern.compile(searchVersionRegex);
         this.replaceVersionRegex = replaceVersionRegex;
     }
 
+    @Nonnull
     protected Pattern getSearchPattern() {
         return searchPattern;
     }
-    
+
+    @Nonnull
     protected String getReplaceVersionRegex() {
         return replaceVersionRegex;
     }
-    
-    public String extractVersionFrom(String tagName) {
+
+    @Nonnull
+    public String extractVersionFrom(@Nonnull String tagName) {
         return searchPattern.matcher(tagName).replaceAll(replaceVersionRegex);
     }
     
@@ -56,7 +67,8 @@ public class VersionNamingConfiguration {
      * @param branch the branch name for which a qualifier should be built
      * @return a non null optional object containing or not a qualifier 
      */
-    public Optional<String> branchQualifier(String branch) {
+    @Nonnull
+    public Optional<String> branchQualifier(@Nonnull String branch) {
         if (noQualifierForBranches.contains(branch)) {
             return Optional.empty();
         }
