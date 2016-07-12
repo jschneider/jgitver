@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
 /**
@@ -29,8 +30,11 @@ import javax.annotation.concurrent.Immutable;
  */
 @Immutable
 public class Commit {
+    @Nonnull
     private final ObjectId gitObject;
+    @Nonnull
     private final List<Ref> annotatedTags;
+    @Nonnull
     private final List<Ref> lightTags;
     private final int headDistance;
 
@@ -41,7 +45,7 @@ public class Commit {
      * @param annotatedTags list of annotated tags found on the git object
      * @param lightTags list of lightweight tags found on the git object
      */
-    public Commit(ObjectId gitObject, int headDistance, List<Ref> annotatedTags, List<Ref> lightTags) {
+    public Commit(@Nonnull ObjectId gitObject, int headDistance, @Nonnull List<Ref> annotatedTags, @Nonnull List<Ref> lightTags) {
         super();
         this.gitObject = gitObject;
         this.headDistance = headDistance;
@@ -49,15 +53,18 @@ public class Commit {
         this.lightTags = ImmutableList.copyOf(lightTags);
     }
 
+    @Nonnull
     public ObjectId getGitObject() {
         return gitObject;
     }
 
+    @Nonnull
     public List<Ref> getAnnotatedTags() {
         //noinspection ReturnOfCollectionOrArrayField
         return annotatedTags;
     }
 
+    @Nonnull
     public List<Ref> getLightTags() {
         //noinspection ReturnOfCollectionOrArrayField
         return lightTags;
