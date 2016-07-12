@@ -28,7 +28,9 @@ import fr.brouillard.oss.jgitver.metadata.MetadataRegistrar;
 import fr.brouillard.oss.jgitver.metadata.Metadatas;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
+@Immutable
 public class MavenVersionStrategy extends VersionStrategy {
     public MavenVersionStrategy(@Nonnull VersionNamingConfiguration vnc, @Nonnull Repository repository, @Nonnull Git git, @Nonnull MetadataRegistrar metadatas) {
         super(vnc, repository, git, metadatas);
