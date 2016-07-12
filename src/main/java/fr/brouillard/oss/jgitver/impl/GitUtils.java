@@ -26,7 +26,9 @@ import org.eclipse.jgit.lib.Repository;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 
+@Immutable
 public class GitUtils {
     public static String tagNameFromRef(@Nonnull Ref tag) {
         return tag.getName().replace("refs/tags/", "");
