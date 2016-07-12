@@ -108,19 +108,22 @@ public abstract class VersionStrategy {
         DEPTH;
     }
 
+    @Nonnull
     protected VersionNamingConfiguration getVersionNamingConfiguration() {
         return vnc;
     }
 
+    @Nonnull
     protected Repository getRepository() {
         return repository;
     }
 
+    @Nonnull
     protected Git getGit() {
         return git;
     }
 
-    protected boolean isBaseCommitOnHead(Commit head, Commit base) {
+    protected boolean isBaseCommitOnHead(@Nonnull Commit head, @Nonnull Commit base) {
         return head.getGitObject().name().equals(base.getGitObject().name());
     }
 }
