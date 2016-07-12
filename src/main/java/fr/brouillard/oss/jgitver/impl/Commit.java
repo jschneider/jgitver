@@ -17,6 +17,7 @@ package fr.brouillard.oss.jgitver.impl;
 
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 
@@ -25,10 +26,10 @@ import org.eclipse.jgit.lib.Ref;
  * @author Matthieu Brouillard
  */
 public class Commit {
-    private ObjectId gitObject;
-    private List<Ref> annotatedTags;
-    private List<Ref> lightTags;
-    private int headDistance;
+    private final ObjectId gitObject;
+    private final List<Ref> annotatedTags;
+    private final List<Ref> lightTags;
+    private final int headDistance;
 
     /**
      * Creates commit object using the given informations.
@@ -41,8 +42,8 @@ public class Commit {
         super();
         this.gitObject = gitObject;
         this.headDistance = headDistance;
-        this.annotatedTags = annotatedTags;
-        this.lightTags = lightTags;
+        this.annotatedTags = ImmutableList.copyOf(annotatedTags);
+        this.lightTags = ImmutableList.copyOf(lightTags);
     }
 
     public ObjectId getGitObject() {
@@ -50,10 +51,12 @@ public class Commit {
     }
 
     public List<Ref> getAnnotatedTags() {
+        //noinspection ReturnOfCollectionOrArrayField
         return annotatedTags;
     }
 
     public List<Ref> getLightTags() {
+        //noinspection ReturnOfCollectionOrArrayField
         return lightTags;
     }
 
