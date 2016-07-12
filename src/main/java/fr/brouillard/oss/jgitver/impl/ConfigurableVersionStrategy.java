@@ -28,41 +28,55 @@ import fr.brouillard.oss.jgitver.metadata.MetadataRegistrar;
 import fr.brouillard.oss.jgitver.metadata.Metadatas;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
+@Immutable
 public class ConfigurableVersionStrategy extends VersionStrategy {
-    private boolean autoIncrementPatch = false;
-    private boolean useDistance = true;
-    private boolean useGitCommitId = false;
-    private int gitCommitIdLength = 8;
-    private boolean useDirty = false;
-    
-    public ConfigurableVersionStrategy(VersionNamingConfiguration vnc, Repository repository, Git git, MetadataRegistrar metadatas) {
-        super(vnc, repository, git, metadatas);
+    private final boolean autoIncrementPatch;
+    private final boolean useDistance;
+    private final boolean useGitCommitId;
+    private final int gitCommitIdLength;
+    private final boolean useDirty;
+
+    /**
+     * Default constructor
+     */
+    public ConfigurableVersionStrategy(@Nonnull VersionNamingConfiguration vnc, @Nonnull Repository repository, @Nonnull Git git, @Nonnull MetadataRegistrar metadatas) {
+        this(vnc, repository, git, metadatas, false, true, false, 8, false);
     }
-    
-    public ConfigurableVersionStrategy setAutoIncrementPatch(boolean autoIncrementPatch) {
+
+    protected ConfigurableVersionStrategy(@Nonnull VersionNamingConfiguration vnc, @Nonnull Repository repository, @Nonnull Git git, @Nonnull MetadataRegistrar registrar, boolean autoIncrementPatch, boolean useDistance, boolean useGitCommitId, int gitCommitIdLength, boolean useDirty) {
+        super(vnc, repository, git, registrar);
         this.autoIncrementPatch = autoIncrementPatch;
-        return this;
-    }
-
-    public ConfigurableVersionStrategy setUseDistance(boolean useDistance) {
         this.useDistance = useDistance;
-        return this;
-    }
-
-    public ConfigurableVersionStrategy setUseGitCommitId(boolean useGitCommitId) {
         this.useGitCommitId = useGitCommitId;
-        return this;
-    }
-
-    public ConfigurableVersionStrategy setGitCommitIdLength(int gitCommitIdLength) {
         this.gitCommitIdLength = gitCommitIdLength;
-        return this;
+        this.useDirty = useDirty;
     }
 
+    @Nonnull
+    public ConfigurableVersionStrategy setAutoIncrementPatch(boolean autoIncrementPatch) {
+        return new ConfigurableVersionStrategy(getVersionNamingConfiguration(), getRepository(), getGit(), getRegistrar(), autoIncrementPatch, useDistance, useGitCommitId, gitCommitIdLength, useDirty);
+    }
+
+    @Nonnull
+    public ConfigurableVersionStrategy setUseDistance(boolean useDistance) {
+        return new ConfigurableVersionStrategy(getVersionNamingConfiguration(), getRepository(), getGit(), getRegistrar(), autoIncrementPatch, useDistance, useGitCommitId, gitCommitIdLength, useDirty);
+    }
+
+    @Nonnull
+    public ConfigurableVersionStrategy setUseGitCommitId(boolean useGitCommitId) {
+        return new ConfigurableVersionStrategy(getVersionNamingConfiguration(), getRepository(), getGit(), getRegistrar(), autoIncrementPatch, useDistance, useGitCommitId, gitCommitIdLength, useDirty);
+    }
+
+    @Nonnull
+    public ConfigurableVersionStrategy setGitCommitIdLength(int gitCommitIdLength) {
+        return new ConfigurableVersionStrategy(getVersionNamingConfiguration(), getRepository(), getGit(), getRegistrar(), autoIncrementPatch, useDistance, useGitCommitId, gitCommitIdLength, useDirty);
+    }
+
+    @Nonnull
     public ConfigurableVersionStrategy setUseDirty(boolean useDirty) {
-        this.useDirty = useDirty;
-        return this;
+        return new ConfigurableVersionStrategy(getVersionNamingConfiguration(), getRepository(), getGit(), getRegistrar(), autoIncrementPatch, useDistance, useGitCommitId, gitCommitIdLength, useDirty);
     }
 
     @Nonnull
