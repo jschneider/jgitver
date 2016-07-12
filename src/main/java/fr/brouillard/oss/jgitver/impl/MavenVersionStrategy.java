@@ -35,9 +35,9 @@ public class MavenVersionStrategy extends VersionStrategy {
     }
 
     @Override
-    public Version build(Commit head, List<Commit> parentsWithTags) throws VersionCalculationException {
+    public Version build(Commit head, List<Commit> parents) throws VersionCalculationException {
         try {
-            Commit base = parentsWithTags.get(0);
+            Commit base = parents.get(0);
 
             Ref tagToUse;
             if (isBaseCommitOnHead(head, base) && !GitUtils.isDirty(getGit())) {
